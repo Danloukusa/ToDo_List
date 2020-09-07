@@ -1,0 +1,23 @@
+{
+  "name": "todo_list",
+  "version": "1.0.0",
+  "description": "make a todo list",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Danloukusa/ToDo_List.git"
+  },
+  "author": "Daniel Loukusa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Danloukusa/ToDo_List/issues"
+  },
+  "homepage": "https://github.com/Danloukusa/ToDo_List#readme",
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}
