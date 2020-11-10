@@ -16,7 +16,9 @@ function toDoClass(theName){
         list.push(doItemMaker(info));
     }
 
-
+    function addDescription(info){
+        this.description = info;
+    }
 
     // Move the list to another project
     function moveList(parent){
@@ -36,7 +38,7 @@ function toDoClass(theName){
     }
 
 
-    return { list, listName, description, priority, parentProject, addToList, moveList, doItemMaker };
+    return { list, listName, description, priority, parentProject, addToList, moveList, doItemMaker, addDescription };
 }
 
 export default toDoClass;

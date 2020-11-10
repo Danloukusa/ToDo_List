@@ -2,10 +2,38 @@
 <html>
     <head>
         <title>To-Do List</title>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div id = "megaContainer">
+        
 
+        <div id="overlay">
+            <h1>Welcome to your ToDo list!</h1>
+            <div id="options">
+                <div id="defaultList" class="options">Make a new list (Default)</div>
+                <div id="customList" class="options">Make a new list (Custom)</div>
+            </div>
+        </div>
+
+        
+
+        <div>
+            <h1>Behind the div OOGA BOOGA</h1>
+            <form id="listConstruction">
+                <label for="parentProject">What project do you want this list in?</label>
+                <input type="text" id="parent" placeholder="Project Name" name="parentProject">
+                <br><br>
+                <label for="title">What is this ToDo list's name?</label>
+                <input type="text" id="title" placeholder="List Title" name="title">
+                <br><br>
+                <label for="desc">What is general description of this ToDo list?</label>
+                <br>
+                <textarea placeholder="Description" name="desc" id="desc" rows="5" cols="50"></textarea>
+            </form>
+        </div>
+
+        <div id = "megaContainer">
+            
         </div>
         <script src="main.js"></script>
     </body>

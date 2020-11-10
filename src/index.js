@@ -64,7 +64,8 @@ import toDoClass from './toDoItem';
 // Main is like normal if you make it an IIFE
 function main(){
     // Data is in the back end now.
-    
+
+    document.getElementById("listConstruction").reset();
 
     function storeList(list){
         listArray.push(list);
@@ -74,6 +75,7 @@ function main(){
         listArray.splice(listIndex, 1);
     }
 
+    /*
     let newThing = toDoClass("cookPasta");
     storeList(newThing);
     newThing.addToList("Put water in a pot");
@@ -102,17 +104,23 @@ function main(){
     t.addToList("Realize forgotton JumpRope")
     t.parentProject = "shoeStuff";
 
-    showAllLists(listArray);
+    removeList(2);
 
+    showAllLists(listArray);
+*/
     //showAList(newThing);
     //showAList(secondList);
     // console.log(newThing.list);
 
     // console.log(listArray);
 
-    let JSONREADYarray = JSON.stringify(listArray);
 
-    localStorage.setItem("ToDoList Collection", JSONREADYarray);
+    // LOCAL STORAGE SECTION **********************
+    // ********************************************
+    
+//    let JSONREADYarray = JSON.stringify(listArray);
+
+//    localStorage.setItem("ToDoList Collection", JSONREADYarray);
 
     // console.log("LOCAL STORAGE SECTION BELOW HERE:");
     // console.log(JSON.parse(localStorage['ToDoList Collection']));
@@ -121,3 +129,26 @@ function main(){
 };
 main();
 
+function overlayListener(){
+    document.getElementById("defaultList").addEventListener("click", removeOverlay);
+    document.getElementById("customList").addEventListener("click", removeOverlay);
+}
+
+overlayListener();
+
+function removeOverlay(){
+    if(this.id == "defaultList")
+    {
+        document.getElementById("parent").style.color = "black";
+        document.getElementById("parent").style.backgroundColor = "red";
+        document.getElementById("parent").placeholder = "Default";
+        document.getElementById("parent").disabled = true;
+        // include in the form, parent project section, but greyed out, not interactable, and with text "Default".
+    }
+    if(this.id == "customList")
+    {
+        // include in the form, parent project section.
+    }
+
+    document.getElementById("overlay").style.display = "none";
+}
