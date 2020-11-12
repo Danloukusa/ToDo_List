@@ -10,17 +10,21 @@
         <div id="overlay">
             <h1>Welcome to your ToDo list!</h1>
             <div id="options">
-                <div id="defaultList" class="options">Make a new list (Default)</div>
-                <div id="customList" class="options">Make a new list (Custom)</div>
+                <div id="newList" class="options">Make new list</div>
+                <div id="viewAll" class="options">View all lists</div>
             </div>
         </div>
 
         
 
-        <div>
+        <div id="makeList">
             <h1>Behind the div OOGA BOOGA</h1>
             <form id="listConstruction">
                 <label for="parentProject">What project do you want this list in?</label>
+                | Default
+                <input type="radio" class="projType" name="projType" id="radioDefault" checked="true">|
+                | Custom
+                <input type="radio" class="projType" name="projType" id="radioCustom">|
                 <input type="text" id="parent" placeholder="Project Name" name="parentProject">
                 <br><br>
                 <label for="title">What is this ToDo list's name?</label>

@@ -75,7 +75,7 @@ function main(){
         listArray.splice(listIndex, 1);
     }
 
-    /*
+    
     let newThing = toDoClass("cookPasta");
     storeList(newThing);
     newThing.addToList("Put water in a pot");
@@ -104,10 +104,6 @@ function main(){
     t.addToList("Realize forgotton JumpRope")
     t.parentProject = "shoeStuff";
 
-    removeList(2);
-
-    showAllLists(listArray);
-*/
     //showAList(newThing);
     //showAList(secondList);
     // console.log(newThing.list);
@@ -118,10 +114,12 @@ function main(){
     // LOCAL STORAGE SECTION **********************
     // ********************************************
     
-//    let JSONREADYarray = JSON.stringify(listArray);
+    //let JSONREADYarray = JSON.stringify(listArray);
 
-//    localStorage.setItem("ToDoList Collection", JSONREADYarray);
+    //ocalStorage.setItem("ToDoList Collection", JSONREADYarray);
+    console.log(JSON.parse(localStorage['ToDoList Collection']));
 
+    listArray = JSON.parse(localStorage['ToDoList Collection']);
     // console.log("LOCAL STORAGE SECTION BELOW HERE:");
     // console.log(JSON.parse(localStorage['ToDoList Collection']));
 
@@ -130,23 +128,32 @@ function main(){
 main();
 
 function overlayListener(){
-    document.getElementById("defaultList").addEventListener("click", removeOverlay);
-    document.getElementById("customList").addEventListener("click", removeOverlay);
+    document.getElementById("newList").addEventListener("click", removeOverlay);
+    document.getElementById("viewAll").addEventListener("click", removeOverlay);
+    document.getElementById("radioDefault").addEventListener("click", hideCustomInput);
+    document.getElementById("radioCustom").addEventListener("click", showCustomInput);
+}
+
+function showCustomInput(){
+    let x = document.getElementById("parent");
+    x.style.display = "inline";
+}
+
+function hideCustomInput(){
+    let x = document.getElementById("parent");
+    x.style.display = "none";
 }
 
 overlayListener();
 
 function removeOverlay(){
-    if(this.id == "defaultList")
+    if(this.id == "newList")
     {
-        document.getElementById("parent").style.color = "black";
-        document.getElementById("parent").style.backgroundColor = "red";
-        document.getElementById("parent").placeholder = "Default";
-        document.getElementById("parent").disabled = true;
-        // include in the form, parent project section, but greyed out, not interactable, and with text "Default".
+        document.getElementById("makeList").style.display = "inline";
     }
-    if(this.id == "customList")
+    if(this.id == "viewAll")
     {
+        showAllLists(JSON.parse(localStorage['ToDoList Collection']));
         // include in the form, parent project section.
     }
 

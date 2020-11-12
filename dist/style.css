@@ -42,3 +42,10 @@ body{
     margin: 1px;
 }
 
+#parent{
+    display: none;
+}
+
+#makeList{
+    display: none;
+}
