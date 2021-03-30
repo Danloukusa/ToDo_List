@@ -1,9 +1,30 @@
 #mainList{
-    text-decoration: underline;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: pink;
+    padding: 10px;
+    border: 1px solid pink;
+    list-style-type: none;
 }
 
-li{
-    text-decoration: none;
+#mainList *{
+    text-align: center;
+    grid-template-rows: 3;
+    border: 1px solid white;
+    padding: 10px;
+    font-size: 2vh;
+}
+
+#mainList li:hover{
+    background-color: blue;
+}
+
+#mainList p{
+    background-color: yellow;
+}
+
+ol{
+    border: 1px solid white;
 }
 
 body{
@@ -33,6 +54,14 @@ body{
     width: 100%;
     display: grid;
     grid-template-columns: auto auto;
+}
+
+#currentListTitle{
+    padding: 1%;
+    background-color: pink;
+    font-size: 5vh;
+    width: 50%;
+    text-align: center;
 }
 
 .options{
