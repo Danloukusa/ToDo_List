@@ -4,7 +4,9 @@ import toDoClass from './toDoItem';
 
     function showSubLists(){
         let x;
+        clearSubLists();
         newBackground(this);
+        document.getElementById("currentListTitle").innerText = this.id + " related lists";
         for(x in listArray)
         {
             if (listArray[x].parentProject == this.id)
@@ -75,23 +77,22 @@ import toDoClass from './toDoItem';
                 document.getElementById("mainList").appendChild(list);
             }
         }
+
+        let displayBox = document.createElement("div");
+        displayBox.id = "displayBox";
+        document.getElementById("megaContainer").appendChild(displayBox);
     }
 
     function clearSubLists(){
         
-        let mainParent = document.getElementById("megaContainer");
-        let num = 0;
-        for(num = 0; num < 4; num++)
+        let mainParent = document.getElementById("displayBox");
+        while(mainParent.hasChildNodes())
         {
-            if(mainParent.childNodes.length > 5)
-                mainParent.removeChild(mainParent.lastChild);
-
+            mainParent.removeChild(mainParent.lastChild);
         }
-        document.getElementById("makeList").style.display = "none";
     }
 
     function showAList(toDoObject){
-        clearSubLists();
         let containerExist = doesContainerExist(toDoObject.listName);
         // alert(containerExist);
         if(!containerExist)
@@ -100,7 +101,7 @@ import toDoClass from './toDoItem';
             container.id = toDoObject.listName;
             container.className = toDoObject.parentProject;
             container.innerText = container.id;
-            document.getElementById("megaContainer").appendChild(container);
+            document.getElementById("displayBox").appendChild(container);
             showHelper(toDoObject.list, toDoObject.listName);
         }
         else
@@ -204,10 +205,15 @@ function main(){
 };
 main();
 
+function mainButton(){
+    clearSubLists();
+    document.getElementById("currentListTitle").innerText = "Category Lists";
+}
+
 function overlayListener(){
     document.getElementById("newList").addEventListener("click", listCreator);
     // document.getElementById("viewAll").addEventListener("click", removeOverlay);
-    document.getElementById("mainButton").addEventListener("click", clearSubLists);
+    document.getElementById("mainButton").addEventListener("click", mainButton);
     document.getElementById("radioDefault").addEventListener("click", hideCustomInput);
     document.getElementById("radioCustom").addEventListener("click", showCustomInput);
 }
