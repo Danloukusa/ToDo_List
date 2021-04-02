@@ -6,12 +6,116 @@ import toDoClass from './toDoItem';
         let x;
         clearSubLists();
         newBackground(this);
-        document.getElementById("currentListTitle").innerText = this.id + " related lists";
+        document.getElementById("currentListTitle").innerText = this.id;
+        replaceMainList(this.id);
+        /*
         for(x in listArray)
         {
             if (listArray[x].parentProject == this.id)
                 showAList(listArray[x]);
         }
+        */
+    }
+
+    function showAList()
+    {
+        clearSubLists();
+        newBackground(this);
+        let index;
+        let objInd = 0;
+        for(index in listArray)
+        {
+            if( listArray[index].listName == this.id)
+            {
+                objInd = index;
+            }
+        }
+        // alert(containerExist);
+
+            let container = document.createElement("ol");
+            container.id = listArray[objInd].listName + "Display";
+            container.className = listArray[objInd].parentProject;
+            container.innerText = listArray[objInd].listName;
+            document.getElementById("displayBox").appendChild(container);
+          //  showHelper(listArray[index], listArray);
+
+        // WE HAVE CONTAINER. Now add everything within list to container.
+
+        let myList = listArray[objInd].list;
+       // console.log(myList);
+        let name = listArray[objInd].listName;
+        for(index in myList)
+        {
+            let ele = document.createElement("li");
+            ele.id = name + index;
+            ele.innerText = myList[index];
+            document.getElementById(name + "Display").appendChild(ele);
+        }
+
+        /*
+        function showHelper(list, listName){
+            let index;
+            for(index in list)
+            {
+                let listEle = document.createElement("li");
+                listEle.id = listName + index;
+                listEle.innerText = list[index];
+                document.getElementById(listName).appendChild(listEle);
+            }
+        }
+        */
+
+        function doesContainerExist(containerName){
+            return document.getElementById(containerName) != null;
+        }
+    }
+
+
+    // LEFT OFF HERE, TRYING TO REPLACE BOXES!!!
+    function replaceMainList(subListCategory)
+    {
+        //alert("REPLACE");
+        let list = document.getElementById("mainList");
+        while(list.hasChildNodes())
+        {
+            list.removeChild(list.lastChild);
+        }
+
+        if(subListCategory == "mainButton")
+        {
+            //alert("RESTART MAIN");
+            let foodex;
+            for(foodex in listArray)
+            {
+                if(document.getElementById(listArray[foodex].parentProject) == null)
+                {
+                    let food = document.createElement("li");
+                    food.id = listArray[foodex].parentProject;
+                    food.innerText = food.id;
+                    food.addEventListener("click", showSubLists);
+                   // console.log(food.id);
+                    document.getElementById("mainList").appendChild(food);
+                }
+
+            }    
+        }
+        else
+        {
+            let index;
+            for(index in listArray)
+            {
+                if((listArray[index].parentProject == subListCategory))
+                { 
+                    let list = document.createElement("li");
+                    list.id = listArray[index].listName;
+                    list.innerText = list.id;
+                    list.addEventListener("click", showAList);
+                    //console.log(list.id);
+                    document.getElementById("mainList").appendChild(list);
+                }
+            }
+        }
+
     }
 
     let prev = "ooga";
@@ -73,7 +177,7 @@ import toDoClass from './toDoItem';
                 list.id = array[item].parentProject;
                 list.innerText = list.id;
                 list.addEventListener("click", showSubLists);
-                console.log(list.id);
+                //console.log(list.id);
                 document.getElementById("mainList").appendChild(list);
             }
         }
@@ -92,42 +196,6 @@ import toDoClass from './toDoItem';
         }
     }
 
-    function showAList(toDoObject){
-        let containerExist = doesContainerExist(toDoObject.listName);
-        // alert(containerExist);
-        if(!containerExist)
-        {
-            let container = document.createElement("ol");
-            container.id = toDoObject.listName;
-            container.className = toDoObject.parentProject;
-            container.innerText = container.id;
-            document.getElementById("displayBox").appendChild(container);
-            showHelper(toDoObject.list, toDoObject.listName);
-        }
-        else
-        {
-            // List REFRESH functionality would be nice
-        }
-
-        // showHelper(toDoObject.list, toDoObject.listName);
-        // This will take an ENTIRE list, and show it in a box on the page.
-        // What does a list look like?
-
-        function showHelper(list, listName){
-            let index;
-            for(index in list)
-            {
-                let listEle = document.createElement("li");
-                listEle.id = listName + index;
-                listEle.innerText = list[index];
-                document.getElementById(listName).appendChild(listEle);
-            }
-        }
-
-        function doesContainerExist(containerName){
-            return document.getElementById(containerName) != null;
-        }
-    }
 
     let listArray = [];
 // Main is like normal if you make it an IIFE
@@ -208,6 +276,7 @@ main();
 function mainButton(){
     clearSubLists();
     document.getElementById("currentListTitle").innerText = "Category Lists";
+    replaceMainList(this.id);
 }
 
 function overlayListener(){
