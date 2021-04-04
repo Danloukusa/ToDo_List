@@ -17,6 +17,8 @@ import toDoClass from './toDoItem';
         */
     }
 
+    let currentListIndex = 0;
+
     function showAList()
     {
         clearSubLists();
@@ -28,6 +30,8 @@ import toDoClass from './toDoItem';
             if( listArray[index].listName == this.id)
             {
                 objInd = index;
+                currentListIndex = objInd;
+                break;
             }
         }
         // alert(containerExist);
@@ -50,6 +54,19 @@ import toDoClass from './toDoItem';
             ele.id = name + index;
             ele.innerText = myList[index];
             document.getElementById(name + "Display").appendChild(ele);
+
+                                
+            ele = document.createElement("input");
+            ele.type = "checkbox";
+            ele.addEventListener("click", updateCheckboxArray);
+            ele.id = index;
+            document.getElementById(name + index).appendChild(ele);
+        }
+
+        function updateCheckboxArray()
+        {
+            listArray[currentListIndex].checkList[this.id] = !listArray[currentListIndex].checkList[this.id];
+            console.log(listArray[currentListIndex].checkList);
         }
 
         /*
@@ -63,17 +80,19 @@ import toDoClass from './toDoItem';
                 document.getElementById(listName).appendChild(listEle);
             }
         }
-        */
+        
 
         function doesContainerExist(containerName){
             return document.getElementById(containerName) != null;
         }
+        */
     }
 
 
     // LEFT OFF HERE, TRYING TO REPLACE BOXES!!!
     function replaceMainList(subListCategory)
     {
+        //console.log("in replaceFunction: " + subListCategory);
         //alert("REPLACE");
         let list = document.getElementById("mainList");
         while(list.hasChildNodes())
@@ -83,6 +102,7 @@ import toDoClass from './toDoItem';
 
         if(subListCategory == "mainButton")
         {
+           //console.log("in mainButton");
             //alert("RESTART MAIN");
             let foodex;
             for(foodex in listArray)
@@ -136,7 +156,7 @@ import toDoClass from './toDoItem';
     }
 
 
-    function showAllLists(array){
+    function initialSetup(){
         let item;
 
         let header = document.createElement("div");
@@ -170,17 +190,7 @@ import toDoClass from './toDoItem';
         mainList.id = "mainList";
         document.getElementById("megaContainer").appendChild(mainList);
 
-        for(item in array){
-            if(document.getElementById(array[item].parentProject) == null)
-            {
-                let list = document.createElement("li");
-                list.id = array[item].parentProject;
-                list.innerText = list.id;
-                list.addEventListener("click", showSubLists);
-                //console.log(list.id);
-                document.getElementById("mainList").appendChild(list);
-            }
-        }
+        replaceMainList("mainButton");
 
         let displayBox = document.createElement("div");
         displayBox.id = "displayBox";
@@ -269,7 +279,8 @@ function main(){
 
     // What should I present it as on the DOM?
 
-    showAllLists(JSON.parse(localStorage['ToDoList Collection']));
+    initialSetup();
+    // JSON.parse(localStorage['ToDoList Collection']
 };
 main();
 
