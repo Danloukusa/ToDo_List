@@ -60,6 +60,7 @@ import toDoClass from './toDoItem';
             ele.type = "checkbox";
             ele.addEventListener("click", updateCheckboxArray);
             ele.id = index;
+            ele.checked = listArray[objInd].checkList[index];
             document.getElementById(name + index).appendChild(ele);
         }
 
@@ -67,6 +68,8 @@ import toDoClass from './toDoItem';
         {
             listArray[currentListIndex].checkList[this.id] = !listArray[currentListIndex].checkList[this.id];
             console.log(listArray[currentListIndex].checkList);
+            saveList();
+            console.log(listArray);
         }
 
         /*
@@ -155,7 +158,18 @@ import toDoClass from './toDoItem';
 
     }
 
+    function editList()
+    {
+        let i = 0;
+        let size = listArray[currentListIndex].list.length;
+        console.log(size);
+        for(i = 0; i < size; i++)
+        {
+            document.getElementById(i).disabled = !document.getElementById(i).disabled;
+        }
+    }
 
+    
     function initialSetup(){
         let item;
 
@@ -177,6 +191,7 @@ import toDoClass from './toDoItem';
         header = document.createElement("button");
         header.innerText = "Edit Current List";
         header.id = "editList";
+        header.addEventListener("click", editList);
         header.style.display = "inline";
         document.getElementById("buttons").appendChild(header);
 
@@ -209,124 +224,131 @@ import toDoClass from './toDoItem';
 
     let listArray = [];
 // Main is like normal if you make it an IIFE
-function main(){
-    // Data is in the back end now.
+    function main(){
+        // Data is in the back end now.
 
-    document.getElementById("listConstruction").reset();
+        document.getElementById("listConstruction").reset();
 
-    function storeList(list){
-        listArray.push(list);
-    }
-
-    function removeList(listIndex){
-        listArray.splice(listIndex, 1);
-    }
-
-    
-    let newThing = toDoClass("cookPasta");
-    storeList(newThing);
-    newThing.addToList("Put water in a pot");
-    newThing.addToList("Turn on the stove");
-    newThing.addToList("Put in the pasta");
-    newThing.addToList("Turn on the timer for 20min");
-
-
-
-    let secondList = toDoClass("running");
-    storeList(secondList);
-    secondList.addToList("Put on shoes");
-    secondList.addToList("Tie shoelaces");
-    secondList.addToList("Open door");
-    secondList.addToList("Walk outside");
-    secondList.addToList("Close and lock door");
-    secondList.parentProject = "shoeStuff";
-
-    let t = toDoClass("jumpRope");
-    storeList(t);
-    t.addToList("Put on shoes");
-    t.addToList("Tie shoelaces");
-    t.addToList("Open door");
-    t.addToList("Walk outside");
-    t.addToList("Close and lock door");
-    t.addToList("Realize forgotton JumpRope")
-    t.parentProject = "shoeStuff";
-
-    let x = toDoClass("Gaming");
-    storeList(x);
-    x.addToList("Get a PC and peripherals");
-    x.addToList("Install games");
-    x.addToList("Play Games");
-    x.parentProject = "Entertainment";
-
-    //showAList(newThing);
-    //showAList(secondList);
-    // console.log(newThing.list);
-
-    // console.log(listArray);
-
-
-    // LOCAL STORAGE SECTION **********************
-    // ********************************************
-    
-    let JSONREADYarray = JSON.stringify(listArray);
-
-    localStorage.setItem("ToDoList Collection", JSONREADYarray);
-    console.log(JSON.parse(localStorage['ToDoList Collection']));
-
-    listArray = JSON.parse(localStorage['ToDoList Collection']);
-    // console.log("LOCAL STORAGE SECTION BELOW HERE:");
-    // console.log(JSON.parse(localStorage['ToDoList Collection']));
-
-    // What should I present it as on the DOM?
-
-    initialSetup();
-    // JSON.parse(localStorage['ToDoList Collection']
-};
-main();
-
-function mainButton(){
-    clearSubLists();
-    document.getElementById("currentListTitle").innerText = "Category Lists";
-    replaceMainList(this.id);
-}
-
-function overlayListener(){
-    document.getElementById("newList").addEventListener("click", listCreator);
-    // document.getElementById("viewAll").addEventListener("click", removeOverlay);
-    document.getElementById("mainButton").addEventListener("click", mainButton);
-    document.getElementById("radioDefault").addEventListener("click", hideCustomInput);
-    document.getElementById("radioCustom").addEventListener("click", showCustomInput);
-}
-
-function showCustomInput(){
-    let x = document.getElementById("parent");
-    x.style.display = "inline";
-}
-
-function hideCustomInput(){
-    let x = document.getElementById("parent");
-    x.style.display = "none";
-}
-
-overlayListener();
-
-function listCreator(){
-    document.getElementById("makeList").style.display = "inline";
-}
-
-/*
-    function removeOverlay(){
-        if(this.id == "newList")
-        {
-            document.getElementById("makeList").style.display = "inline";
-        }
-        if(this.id == "viewAll")
-        {
-            
-            showAllLists(JSON.parse(localStorage['ToDoList Collection']));
-            // include in the form, parent project section.
+        function storeList(list){
+            listArray.push(list);
         }
 
-        document.getElementById("overlay").style.display = "none";
+        function removeList(listIndex){
+            listArray.splice(listIndex, 1);
+        }
+
+/*        
+        let newThing = toDoClass("cookPasta");
+        storeList(newThing);
+        newThing.addToList("Put water in a pot");
+        newThing.addToList("Turn on the stove");
+        newThing.addToList("Put in the pasta");
+        newThing.addToList("Turn on the timer for 20min");
+
+
+
+        let secondList = toDoClass("running");
+        storeList(secondList);
+        secondList.addToList("Put on shoes");
+        secondList.addToList("Tie shoelaces");
+        secondList.addToList("Open door");
+        secondList.addToList("Walk outside");
+        secondList.addToList("Close and lock door");
+        secondList.parentProject = "shoeStuff";
+
+        let t = toDoClass("jumpRope");
+        storeList(t);
+        t.addToList("Put on shoes");
+        t.addToList("Tie shoelaces");
+        t.addToList("Open door");
+        t.addToList("Walk outside");
+        t.addToList("Close and lock door");
+        t.addToList("Realize forgotton JumpRope")
+        t.parentProject = "shoeStuff";
+
+        let x = toDoClass("Gaming");
+        storeList(x);
+        x.addToList("Get a PC and peripherals");
+        x.addToList("Install games");
+        x.addToList("Play Games");
+        x.parentProject = "Entertainment";
+
+        //showAList(newThing);
+        //showAList(secondList);
+        // console.log(newThing.list);
+
+        // console.log(listArray);
+
+
+        // LOCAL STORAGE SECTION **********************
+        // ********************************************
+        
+        let JSONREADYarray = JSON.stringify(listArray);
+
+        localStorage.setItem("ToDoList Collection", JSONREADYarray);
+    
+    */
+        console.log(JSON.parse(localStorage['ToDoList Collection']));
+
+        listArray = JSON.parse(localStorage['ToDoList Collection']);
+        // console.log("LOCAL STORAGE SECTION BELOW HERE:");
+        // console.log(JSON.parse(localStorage['ToDoList Collection']));
+
+        // What should I present it as on the DOM?
+
+        initialSetup();
+        // JSON.parse(localStorage['ToDoList Collection']
+    };
+    main();
+
+    function saveList(){
+        let JSONREADYarray = JSON.stringify(listArray);
+        localStorage.setItem("ToDoList Collection", JSONREADYarray);
     }
-*/
+
+    function mainButton(){
+        clearSubLists();
+        document.getElementById("currentListTitle").innerText = "Category Lists";
+        replaceMainList(this.id);
+    }
+
+    function overlayListener(){
+        document.getElementById("newList").addEventListener("click", listCreator);
+        // document.getElementById("viewAll").addEventListener("click", removeOverlay);
+        document.getElementById("mainButton").addEventListener("click", mainButton);
+        document.getElementById("radioDefault").addEventListener("click", hideCustomInput);
+        document.getElementById("radioCustom").addEventListener("click", showCustomInput);
+    }
+
+    function showCustomInput(){
+        let x = document.getElementById("parent");
+        x.style.display = "inline";
+    }
+
+    function hideCustomInput(){
+        let x = document.getElementById("parent");
+        x.style.display = "none";
+    }
+
+    overlayListener();
+
+    function listCreator(){
+        document.getElementById("makeList").style.display = "inline";
+    }
+
+    /*
+        function removeOverlay(){
+            if(this.id == "newList")
+            {
+                document.getElementById("makeList").style.display = "inline";
+            }
+            if(this.id == "viewAll")
+            {
+                
+                showAllLists(JSON.parse(localStorage['ToDoList Collection']));
+                // include in the form, parent project section.
+            }
+
+            document.getElementById("overlay").style.display = "none";
+        }
+    */

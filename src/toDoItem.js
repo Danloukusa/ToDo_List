@@ -13,6 +13,11 @@ function toDoClass(theName){
     // What project is this a part of? By default, it's Default; HUE
     let parentProject = "default";
 
+    function currSize()
+    {
+        return this.list.size;
+    }
+
 
     // add to list
     function addToList(info){
@@ -46,7 +51,7 @@ function toDoClass(theName){
     }
 
 
-    return { list, listName, description, priority, parentProject, addToList, moveList, doItemMaker, addDescription, editListItem, removeItem, checkList };
+    return { list, listName, description, priority, parentProject, addToList, moveList, doItemMaker, addDescription, editListItem, removeItem, checkList, currSize };
 }
 
 export default toDoClass;
