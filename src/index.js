@@ -203,7 +203,7 @@ import toDoClass from './toDoItem';
 
             newChild = document.createElement("button");
             newChild.id = name + i + "-";
-            newChild.innerText = "REMOVE CURRENT";
+            newChild.innerText = "REMOVE";
             newChild.addEventListener("click", removeCurrent);
             currentChild.append(newChild);
 
@@ -211,7 +211,7 @@ import toDoClass from './toDoItem';
             {
                 newChild = document.createElement("button");
                 newChild.id = name + i + "+";
-                newChild.innerText = "NEW ITEM BELOW CURRENT";
+                newChild.innerText = "ADD ITEM";
                 newChild.addEventListener("click", addRow);
                 currentChild.append(newChild);
             }
@@ -219,26 +219,106 @@ import toDoClass from './toDoItem';
 
 
             // parent.replaceChild(newChild, currentChild);
-            
-
         }
+
+        let newChild = document.createElement("button");
+        newChild.id = "save";
+        newChild.innerText = "SAVE CHANGES";
+        newChild.addEventListener("click", save);
+        document.getElementById("displayBox").appendChild(newChild);
+    }
+
+    function save(){
+        let i = 0;
+        let webSize = document.getElementById("displayBox").firstChild.childNodes.length;
+        console.log("NUM CHILDREN: " + webSize);
+        let arr = listArray[currentListIndex].list;
+        console.log(arr);
+        let arrLength = arr.length;
+        for(i = 1; i < webSize; i++)
+        {
+            if(i + 1 >= arr.length)
+            {
+                arr.push(document.getElementById("displayBox").firstChild.childNodes[i].firstChild.value);
+            }
+            else{
+                console.log(i);
+                arr[i - 1] = document.getElementById("displayBox").firstChild.childNodes[i].firstChild.value;
+            }
+
+        }  
+        
+        if(webSize-1 < arrLength)
+        {
+            if(webSize - 1 == 0)
+            {
+                while(arr.length > 0)
+                {
+                    arr.pop();
+                }
+            }
+            console.log("smallerList than initial Array");
+            arr = arr.splice(0, webSize - 1);
+        }
+
+        console.log(arr);
     }
 
     function removeCurrent()
     {
+        let parent = this.parentNode.parentNode;
+        childIndex = parent.childNodes.length - 2;
+        console.log("removeCurrent: " + childIndex);
         let x = confirm("Confirm deletion.");
         if(x)
         {
+            // if current is LAST child
+            if((this.parentNode == this.parentNode.parentNode.lastChild) && childIndex != 0)
+            {
+                parent = document.getElementById("displayBox").firstChild.childNodes[childIndex];
+                let child = document.createElement("button");
+                child.id = parent.id + "+"
+                child.addEventListener("click", addRow);
+                child.innerText = "ADD ITEM";
+                parent.appendChild(child);
+            }
             document.getElementById(this.id).parentNode.remove();
         }  
     }
 
+    let childIndex = 0;
     // make a row of list in edit mode
     function addRow(){
-        let parent = this.parentNode.parentNode.id;
+        let parent = this.parentNode.parentNode;
+        console.log(parent);
+        childIndex = parent.childNodes.length - 1;
 
+        let name;
         let newChild = document.createElement("li");
-        newChild.id = 
+        newChild.id = listArray[currentListIndex].listName + childIndex;
+        name = newChild.id;
+        parent.appendChild(newChild);
+
+        parent = document.getElementById(name);
+        newChild = document.createElement("input");
+        newChild.type = "text";
+        newChild.id = name;
+        parent.appendChild(newChild);
+
+        newChild = document.createElement("button");
+        newChild.id = name + "-";
+        newChild.innerText = "REMOVE";
+        newChild.addEventListener("click", removeCurrent);
+        parent.append(newChild);
+
+        newChild = document.createElement("button");
+        newChild.id = name + "+";
+        newChild.innerText = "ADD ITEM";
+        newChild.addEventListener("click", addRow);
+        parent.append(newChild);
+
+        name = listArray[currentListIndex].listName + (childIndex - 1) + "+";
+        newChild = document.getElementById(name).remove();
     }
 
     
@@ -291,6 +371,7 @@ import toDoClass from './toDoItem';
         {
             mainParent.removeChild(mainParent.lastChild);
         }
+        document.getElementById("makeList").style.display = "none";
     }
 
 
@@ -381,7 +462,7 @@ import toDoClass from './toDoItem';
     function mainButton(){
         clearSubLists();
         document.getElementById("currentListTitle").innerText = "Category Lists";
-        replaceMainList(this.id);
+        replaceMainList("mainButton");
     }
 
     function overlayListener(){
@@ -405,6 +486,7 @@ import toDoClass from './toDoItem';
     overlayListener();
 
     function listCreator(){
+        mainButton();
         document.getElementById("makeList").style.display = "inline";
     }
 
