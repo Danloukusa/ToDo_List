@@ -158,15 +158,87 @@ import toDoClass from './toDoItem';
 
     }
 
+    let editStatus = false;
     function editList()
     {
+        if(editStatus)
+        {
+            return;
+        }
+        editStatus = true;
         let i = 0;
         let size = listArray[currentListIndex].list.length;
+        let name = listArray[currentListIndex].listName;
         console.log(size);
         for(i = 0; i < size; i++)
         {
-            document.getElementById(i).disabled = !document.getElementById(i).disabled;
+            document.getElementById(i).remove();
+            let currentChild = document.getElementById(name + i);
+            let parent = document.getElementById("displayBox").firstChild;
+
+            let newChild = document.createElement("input");
+            newChild.type = "text";
+            newChild.id = currentChild.id;
+            newChild.value = currentChild.innerText;
+
+            currentChild.innerText = "";
+            currentChild.append(newChild);
+
+            /*
+            if(i == 0)
+            {
+                newChild = document.createElement("button");
+                newChild.id = name + "+bef";
+                newChild.innerText = "NEW ITEM ABOVE CURRENT";
+                currentChild.append(newChild);
+            }
+
+            
+            newChild = document.createElement("button");
+            newChild.id = name + "+aft";
+            newChild.innerText = "NEW ITEM BELOW CURRENT";
+            currentChild.append(newChild);
+            */
+
+
+            newChild = document.createElement("button");
+            newChild.id = name + i + "-";
+            newChild.innerText = "REMOVE CURRENT";
+            newChild.addEventListener("click", removeCurrent);
+            currentChild.append(newChild);
+
+            if(i == size - 1)
+            {
+                newChild = document.createElement("button");
+                newChild.id = name + i + "+";
+                newChild.innerText = "NEW ITEM BELOW CURRENT";
+                newChild.addEventListener("click", addRow);
+                currentChild.append(newChild);
+            }
+
+
+
+            // parent.replaceChild(newChild, currentChild);
+            
+
         }
+    }
+
+    function removeCurrent()
+    {
+        let x = confirm("Confirm deletion.");
+        if(x)
+        {
+            document.getElementById(this.id).parentNode.remove();
+        }  
+    }
+
+    // make a row of list in edit mode
+    function addRow(){
+        let parent = this.parentNode.parentNode.id;
+
+        let newChild = document.createElement("li");
+        newChild.id = 
     }
 
     
