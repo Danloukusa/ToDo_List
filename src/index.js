@@ -17,7 +17,7 @@ import toDoClass from './toDoItem';
         */
     }
 
-    let currentListIndex = 0;
+    let currentListIndex = -1;
 
     function showAList()
     {
@@ -94,17 +94,22 @@ import toDoClass from './toDoItem';
 
     // LEFT OFF HERE, TRYING TO REPLACE BOXES!!!
     function replaceMainList(subListCategory)
-    {
-        //console.log("in replaceFunction: " + subListCategory);
-        //alert("REPLACE");
+    { 
         let list = document.getElementById("mainList");
         while(list.hasChildNodes())
         {
             list.removeChild(list.lastChild);
         }
 
+        let added = false;
         if(subListCategory == "mainButton")
         {
+            if(listArray.length == 0)
+            {
+                document.getElementById("currentListTitle").innerText = "Press 'New List'";
+                return;
+            }
+            currentListIndex = -1;
            //console.log("in mainButton");
             //alert("RESTART MAIN");
             let foodex;
@@ -120,7 +125,7 @@ import toDoClass from './toDoItem';
                     document.getElementById("mainList").appendChild(food);
                 }
 
-            }    
+            }
         }
         else
         {
@@ -135,7 +140,12 @@ import toDoClass from './toDoItem';
                     list.addEventListener("click", showAList);
                     //console.log(list.id);
                     document.getElementById("mainList").appendChild(list);
+                    added = true;
                 }
+            }
+            if(added == false)
+            {
+                    mainButton();
             }
         }
 
@@ -158,14 +168,12 @@ import toDoClass from './toDoItem';
 
     }
 
-    let editStatus = false;
     function editList()
     {
-        if(editStatus)
+        if(currentListIndex == -1)
         {
             return;
         }
-        editStatus = true;
         let i = 0;
         let size = listArray[currentListIndex].list.length;
         let name = listArray[currentListIndex].listName;
@@ -204,7 +212,7 @@ import toDoClass from './toDoItem';
             newChild = document.createElement("button");
             newChild.id = name + i + "-";
             newChild.innerText = "REMOVE";
-            newChild.addEventListener("click", removeCurrent);
+            newChild.addEventListener("click", removeRow);
             currentChild.append(newChild);
 
             if(i == size - 1)
@@ -252,19 +260,17 @@ import toDoClass from './toDoItem';
         {
             if(webSize - 1 == 0)
             {
-                while(arr.length > 0)
-                {
-                    arr.pop();
-                }
+                deleteList();
             }
-            console.log("smallerList than initial Array");
-            arr = arr.splice(0, webSize - 1);
+            else
+            {
+                console.log("smallerList than initial Array");
+                arr = arr.splice(0, webSize - 1);
+            }
         }
-
-        console.log(arr);
     }
 
-    function removeCurrent()
+    function removeRow()
     {
         let parent = this.parentNode.parentNode;
         childIndex = parent.childNodes.length - 2;
@@ -284,6 +290,23 @@ import toDoClass from './toDoItem';
             }
             document.getElementById(this.id).parentNode.remove();
         }  
+    }
+
+    function deleteList()
+    {
+        if(currentListIndex == -1)
+        {
+            alert("No list selected");
+            return;
+        }  
+        let x = confirm("Confirm deletion.");
+        if(x)
+        {
+            listArray.splice(currentListIndex, 1);
+            replaceMainList(document.getElementById("currentListTitle").innerText);
+            clearSubLists();
+        }
+        currentListIndex = -1;
     }
 
     let childIndex = 0;
@@ -344,6 +367,13 @@ import toDoClass from './toDoItem';
         header.innerText = "Edit Current List";
         header.id = "editList";
         header.addEventListener("click", editList);
+        header.style.display = "inline";
+        document.getElementById("buttons").appendChild(header);
+
+        header = document.createElement("button");
+        header.innerText = "DELETE Current List";
+        header.id = "deleteList";
+        header.addEventListener("click", deleteList);
         header.style.display = "inline";
         document.getElementById("buttons").appendChild(header);
 
@@ -459,10 +489,11 @@ import toDoClass from './toDoItem';
         localStorage.setItem("ToDoList Collection", JSONREADYarray);
     }
 
-    function mainButton(){
-        clearSubLists();
-        document.getElementById("currentListTitle").innerText = "Category Lists";
-        replaceMainList("mainButton");
+    function mainButton()
+    {
+            clearSubLists();
+            document.getElementById("currentListTitle").innerText = "Category Lists";
+            replaceMainList("mainButton");
     }
 
     function overlayListener(){
@@ -486,8 +517,7 @@ import toDoClass from './toDoItem';
     overlayListener();
 
     function listCreator(){
-        mainButton();
-        document.getElementById("makeList").style.display = "inline";
+            document.getElementById("makeList").style.display = "inline";
     }
 
     /*
