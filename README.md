@@ -12,13 +12,7 @@ After stubbornly forcing my way through the problem, I have the following featur
       -Add or Remove list items
       -Change the text within existing list items
   - Delete a displayed TODO LIST
-
-
-The features I still want to implement include:
-- Add NEW list Objects
-  - User Interface: SAME layout as the edit mode of existing lists
-  - Similar logic to edit mode of existing lists
-
+- Create a new TODO LIST
 
 The problem I have run into:
 - Spaghetti Code.
@@ -26,5 +20,4 @@ The problem I have run into:
   - Much is not reusable
   - Not ES6
 
-I have already conceptually solved the main problems. I just need to rebuild it to be organized.
-So, I will go to smaller projects, and learn properly how to organize my code! Goodbye for now.
+The goal now: Fix bugs, make it easier to use
