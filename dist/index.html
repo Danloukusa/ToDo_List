@@ -26,7 +26,7 @@
         </div>
 
         <div id="makeList">
-            <h1>Behind the div OOGA BOOGA</h1>
+            <h1>NEW LIST</h1>
             <form id="listConstruction">
                 <label for="parentProject">What project do you want this list in?</label>
                 | Default
@@ -36,12 +36,16 @@
                 <input type="text" id="parent" placeholder="Project Name" name="parentProject">
                 <br><br>
                 <label for="title">What is this ToDo list's name?</label>
-                <input type="text" id="title" placeholder="List Title" name="title">
+                <input type="text" id="title" placeholder="List Title" name="title" required>
                 <br><br>
-                <label for="desc">What is general description of this ToDo list?</label>
+                <label for="desc">What is general description of this ToDo list? (Optional)</label>
                 <br>
                 <textarea placeholder="Description" name="desc" id="desc" rows="5" cols="50"></textarea>
+
+                <br>
+                <button id="subList">SUBMIT LIST</button>
             </form>
+
         </div>
         <script src="main.js"></script>
     </body>

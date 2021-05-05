@@ -17,6 +17,56 @@ import toDoClass from './toDoItem';
         */
     }
 
+    // making a new list
+    function submitList(){
+        let flag = false;
+        if(document.getElementById("radioCustom").checked == "checked");
+        {
+            if(document.getElementById("parent").value == "")
+                return;
+            
+            flag = true;
+        }
+        if(document.getElementById("title").value == "")
+            return;
+
+
+
+        let parentProject;
+        if (flag)
+        {
+            parentProject = document.getElementById("parent").value;
+        }
+        else
+        {
+            parentProject = "default";
+        }
+
+        let title = document.getElementById("title").value;
+
+        let description = document.getElementById("desc");
+
+        let newThing = toDoClass(title);
+        newThing.parentProject = parentProject;
+        newThing.description = description;
+        newThing.addToList("Default First Item");
+
+        storeList(newThing);
+
+        saveList();
+
+        console.log(listArray);
+
+        mainButton();
+        
+        // radioDefault
+        // radioCustom -> if checked, pull:  'parent'
+        
+        // title
+        // desc (optional)
+    }
+
+
     let currentListIndex = -1;
 
     function showAList()
@@ -268,6 +318,8 @@ import toDoClass from './toDoItem';
                 arr = arr.splice(0, webSize - 1);
             }
         }
+        
+        saveList();
     }
 
     function removeRow()
@@ -405,20 +457,22 @@ import toDoClass from './toDoItem';
     }
 
 
+    function storeList(list){
+        listArray.push(list);
+    }
+
+    function removeList(listIndex){
+        listArray.splice(listIndex, 1);
+    }
+
     let listArray = [];
 // Main is like normal if you make it an IIFE
     function main(){
-        // Data is in the back end now.
-
         document.getElementById("listConstruction").reset();
+        // Data is in the back end now.
+        document.getElementById("subList").addEventListener("click", submitList);
 
-        function storeList(list){
-            listArray.push(list);
-        }
-
-        function removeList(listIndex){
-            listArray.splice(listIndex, 1);
-        }
+        
 
 /*        
         let newThing = toDoClass("cookPasta");
@@ -507,11 +561,13 @@ import toDoClass from './toDoItem';
     function showCustomInput(){
         let x = document.getElementById("parent");
         x.style.display = "inline";
+        x.required = true;
     }
 
     function hideCustomInput(){
         let x = document.getElementById("parent");
         x.style.display = "none";
+        x.required = false;
     }
 
     overlayListener();
