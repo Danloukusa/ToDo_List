@@ -383,7 +383,7 @@ import toDoClass from './toDoItem';
         newChild = document.createElement("button");
         newChild.id = name + "-";
         newChild.innerText = "REMOVE";
-        newChild.addEventListener("click", removeCurrent);
+        newChild.addEventListener("click", removeRow);
         parent.append(newChild);
 
         newChild = document.createElement("button");
